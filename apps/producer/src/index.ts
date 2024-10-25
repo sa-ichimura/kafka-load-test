@@ -2,7 +2,7 @@ import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({
   clientId: 'producer',
-  brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:9094'],
+  brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:29094'],
 });
 
 const producer = kafka.producer();
