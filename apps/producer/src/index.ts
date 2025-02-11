@@ -1,13 +1,14 @@
-import { Kafka } from 'kafkajs';
+import { KafkaJS } from '@confluentinc/kafka-javascript';
 
-const kafka = new Kafka({
-  clientId: 'producer',
-  brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:9094'],
+const kafka = new KafkaJS.Kafka({
+  kafkaJS: {
+    clientId: 'producer',
+    brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:9094'],
+  },
 });
 
-const producer = kafka.producer();
-
 const run = async () => {
+  const producer = kafka.producer();
   await producer.connect();
   setInterval(async () => {
     await producer.send({
@@ -15,7 +16,7 @@ const run = async () => {
       messages: [{ value: 'Hello KafkaJS user!' }],
     });
     console.log('Message sent');
-  }, 1000);
+  }, 10000);
 };
 
 run().catch(console.error);

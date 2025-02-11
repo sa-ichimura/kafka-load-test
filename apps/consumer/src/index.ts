@@ -1,19 +1,26 @@
-import { Kafka } from 'kafkajs';
+import { KafkaJS } from '@confluentinc/kafka-javascript';
 
-const kafka = new Kafka({
-  clientId: 'consumer',
-  brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:9094'],
+const kafka = new KafkaJS.Kafka({
+  kafkaJS: {
+    clientId: 'consumer',
+    brokers: ['broker-0:9092', 'broker-1:9093', 'broker-2:9094'],
+  },
 });
 
-const consumer = kafka.consumer({ groupId: 'test-group' });
-
 const run = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: 'test-topic', fromBeginning: true });
+  const consumer = kafka.consumer({
+    kafkaJS: { groupId: 'test-group', fromBeginning: true },
+  });
 
+  await consumer.connect();
+  await consumer.subscribe({ topic: 'test-topic' });
   await consumer.run({
-    eachMessage: async ({ message }) => {
-      console.log(`Received message: ${message.value?.toString()}`);
+    eachMessage: async ({ partition, message }) => {
+      console.log({
+        partition,
+        offset: message.offset,
+        value: message.value ? message.value.toString() : null,
+      });
     },
   });
 };
