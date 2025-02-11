@@ -25,7 +25,6 @@ services:
     depends_on:
       - zookeeper
     environment:
-    environment:
       KAFKA_BROKER_ID: 0
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
@@ -90,7 +89,6 @@ services:
     volumes:
       - ./apps/producer:/app
     working_dir: /app
-    command: "npm start"
     depends_on:
       - broker-0
       - broker-1
@@ -102,7 +100,6 @@ services:
     volumes:
       - ./apps/consumer:/app
     working_dir: /app
-    command: "npm start"
     depends_on:
       - broker-0
       - broker-1

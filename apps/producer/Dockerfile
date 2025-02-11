@@ -2,14 +2,12 @@ FROM node:22-alpine3.19
 
 WORKDIR /app
 
-# package.jsonとpackage-lock.jsonをコピー
-COPY package*.json ./
-
-# 依存関係のインストール
-RUN npm install
 
 # アプリケーションコードのコピー
 COPY . .
+
+# 依存関係のインストール
+RUN npm install
 
 # TypeScriptのビルド
 RUN npm run build
